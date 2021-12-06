@@ -3,17 +3,17 @@ package com.example.gpslesson
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.location.Location
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Looper
 import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.android.gms.location.*
 import com.google.android.gms.tasks.Task
 
+@Suppress("ControlFlowWithEmptyBody")
 class GpsActivity : AppCompatActivity() {
 
     private val permissionRequestCode = 34
@@ -44,7 +44,6 @@ class GpsActivity : AppCompatActivity() {
             for (location in locationResult.locations){
                 // Update UI with location data
                 val text = "Updated location: ${location.latitude}, ${location.longitude}"
-                tvGps.text = text
             }
             super.onLocationResult(locationResult)
         }
@@ -72,9 +71,8 @@ class GpsActivity : AppCompatActivity() {
         }
         if(isGranted) {
             setupLocationListener()
-            createLocationRequest()
-        }
-        else {
+            createLocationUpdatesRequest()
+        } else {
             // 1)
 //            requestPermissionLauncher.launch(android.Manifest.permission.ACCESS_FINE_LOCATION)
             // 2)
@@ -101,7 +99,7 @@ class GpsActivity : AppCompatActivity() {
                 if (isGranted) {
                     // continue work and use gps
                     setupLocationListener()
-                    createLocationRequest()
+                    createLocationUpdatesRequest()
                 } else {
                     // cannot use gps
                     Toast.makeText(this, "No permissions", Toast.LENGTH_SHORT).show()
@@ -116,20 +114,29 @@ class GpsActivity : AppCompatActivity() {
     @SuppressLint("MissingPermission")
     fun setupLocationListener() {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+//        fusedLocationClient.getCurrentLocation(1,object:CancellationToken() {
+//            override fun isCancellationRequested(): Boolean {
+//                TODO("Not yet implemented")
+//            }
+//
+//            override fun onCanceledRequested(p0: OnTokenCanceledListener): CancellationToken {
+//                TODO("Not yet implemented")
+//            }
+//
+//        })
         fusedLocationClient.lastLocation
-            .addOnSuccessListener { location : Location? ->
-                if(location!=null) {
+            .addOnSuccessListener { location: Location? ->
+                if (location != null) {
                     val text = "location: ${location.latitude}, ${location.longitude}"
                     tvGps.text = text
-                }
-                else {
+                } else {
                     tvGps.text = "No location"
                 }
             }
     }
 
     @SuppressLint("MissingPermission")
-    fun createLocationRequest() {
+    fun createLocationUpdatesRequest() {
         val locationRequest = LocationRequest.create().apply {
             interval = 1000
             fastestInterval = 500
@@ -138,22 +145,20 @@ class GpsActivity : AppCompatActivity() {
 
         val builder = LocationSettingsRequest.Builder()
             .addLocationRequest(locationRequest)
+        val settingsClient = LocationServices.getSettingsClient(this)
+        val task: Task<LocationSettingsResponse> =
+            settingsClient.checkLocationSettings(builder.build())
 
-        val client: SettingsClient = LocationServices.getSettingsClient(this)
-        val task: Task<LocationSettingsResponse> = client.checkLocationSettings(builder.build())
-
-        task
-            .addOnSuccessListener { locationSettingsResponse ->
-
-                fusedLocationClient.requestLocationUpdates(locationRequest,
-                    locationCallback,
-                    Looper.getMainLooper())
-
+        task.addOnSuccessListener { locationSettingsResponse ->
+            fusedLocationClient.requestLocationUpdates(
+                locationRequest,
+                locationCallback,
+                Looper.getMainLooper()
+            )
+        }
+            .addOnFailureListener { exception ->
+                // No location updates
             }
-            .addOnFailureListener {exception ->
-                tvGps.text = "No location updates"
-            }
-
 
     }
 

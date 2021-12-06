@@ -1,8 +1,9 @@
 package com.example.gpslesson
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.example.gpslesson.databinding.ActivityMainBinding
+import com.example.gpslesson.fragment_lessons.SecondFragment
 
 class MainActivity : AppCompatActivity(), FragmentInteraction {
 

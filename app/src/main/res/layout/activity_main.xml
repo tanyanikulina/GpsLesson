@@ -10,7 +10,7 @@
         android:id="@+id/fragmentControl"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:name="com.example.gpslesson.FirstFragment"
+        android:name="com.example.gpslesson.fragment_lessons.FirstFragment"
         app:layout_constraintBottom_toTopOf="@id/fragmentChild"
         app:layout_constraintTop_toTopOf="parent"/>
 

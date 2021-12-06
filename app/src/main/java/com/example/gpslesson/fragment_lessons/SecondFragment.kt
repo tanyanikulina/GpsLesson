@@ -1,10 +1,10 @@
-package com.example.gpslesson
+package com.example.gpslesson.fragment_lessons
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import com.example.gpslesson.databinding.FragmentSecondBinding
 
 private const val COLOR_PARAM = "color_param"

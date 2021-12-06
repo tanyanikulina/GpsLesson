@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/rose_50"
-    tools:context=".FirstFragment">
+    tools:context=".fragment_lessons.FirstFragment">
 
     <TextView
         android:id="@+id/tvText"

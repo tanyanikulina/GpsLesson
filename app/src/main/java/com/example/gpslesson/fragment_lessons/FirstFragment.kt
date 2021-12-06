@@ -1,18 +1,16 @@
-package com.example.gpslesson
+package com.example.gpslesson.fragment_lessons
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import com.example.gpslesson.AddMethod
+import com.example.gpslesson.FragmentInteraction
+import com.example.gpslesson.R
 import com.example.gpslesson.databinding.FragmentFirstBinding
-import com.example.gpslesson.databinding.FragmentSecondBinding
-import kotlin.random.Random
-import kotlin.random.nextInt
-import android.animation.ValueAnimator
-import android.animation.ValueAnimator.AnimatorUpdateListener
-import android.animation.ValueAnimator.INFINITE
 import com.example.gpslesson.extensions.animateScale
+import kotlin.random.Random
 
 
 class FirstFragment : Fragment() {
