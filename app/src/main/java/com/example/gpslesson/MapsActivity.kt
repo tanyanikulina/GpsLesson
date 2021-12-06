@@ -1,5 +1,6 @@
 package com.example.gpslesson
 
+import android.annotation.SuppressLint
 import android.location.Address
 import android.location.Geocoder
 import android.os.Bundle
@@ -13,7 +14,6 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import java.io.IOException
 import java.util.*
-
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
@@ -41,31 +41,47 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
      * it inside the SupportMapFragment. This method will only be triggered once the user has
      * installed Google Play services and returned to the app.
      */
+    @SuppressLint("MissingPermission")
     override fun onMapReady(googleMap: GoogleMap) {
         // Use your map there
         mMap = googleMap
+
+        // only if you location permissions
+//        mMap.isMyLocationEnabled = true
 
         // Add a marker in Sydney and move the camera
         val sydney = LatLng(-34.0, 151.0)
         val markerInSydney = MarkerOptions().position(sydney).title("Marker in Sydney")
 
         mMap.addMarker(markerInSydney)
+
+        // interact with map by click
+        mMap.setOnMapClickListener {
+
+        }
+
         // moving and scaling camera
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(-34.0, 151.0), 10.0f))
-//        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(-34.0, 151.0), 10.0f))
-//        mMap.moveCamera(CameraUpdateFactory.newLatLng(LatLng(-34.0, 151.0)))
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(sydney, 10.0f))
+//        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 10.0f))
+//        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
 
         // just for example
         val address = getAddressFromLocation(sydney)
-        val location = getLocationFromAddress("Харьков")
+        val location = getLocationFromAddress("Kyiv")
     }
 
     fun scaleMapByPoints() {
+        val latlng1 = LatLng(46.0, 32.0)
+        val latlng2 = LatLng(50.0, 38.0)
+
+        mMap.addMarker(MarkerOptions().position(latlng1))
+        mMap.addMarker(MarkerOptions().position(latlng2))
+
         val latLngBounds = LatLngBounds.Builder()
-            .include(LatLng(-33.0, 155.0))
-            .include(LatLng(-36.0, 150.0))
+            .include(latlng1)
+            .include(latlng2)
             .build()
-        mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(latLngBounds, 300))
+        mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(latLngBounds, 100))
     }
 
     fun drawPolyline() {
@@ -106,7 +122,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             val address = coder.getFromLocationName(strAddress, 5)
             if (address.isNotEmpty()) {
                 // use a location
-                return LatLng(address[0].latitude, address[0].longitude)
+                val result = LatLng(address[0].latitude, address[0].longitude)
+                return result
             }
         } catch (ex: IOException) {
             ex.printStackTrace()
