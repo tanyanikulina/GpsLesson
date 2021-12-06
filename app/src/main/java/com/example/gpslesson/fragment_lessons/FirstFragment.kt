@@ -5,8 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.example.gpslesson.AddMethod
-import com.example.gpslesson.FragmentInteraction
 import com.example.gpslesson.R
 import com.example.gpslesson.databinding.FragmentFirstBinding
 import com.example.gpslesson.extensions.animateScale

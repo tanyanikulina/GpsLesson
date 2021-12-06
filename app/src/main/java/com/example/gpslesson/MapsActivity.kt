@@ -50,13 +50,14 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         val markerInSydney = MarkerOptions().position(sydney).title("Marker in Sydney")
 
         mMap.addMarker(markerInSydney)
-        val address = getAddressFromLocation(sydney)
-        val location = getLocationFromAddress("Харьков")
         // moving and scaling camera
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(-34.0, 151.0), 10.0f))
 //        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(-34.0, 151.0), 10.0f))
 //        mMap.moveCamera(CameraUpdateFactory.newLatLng(LatLng(-34.0, 151.0)))
 
+        // just for example
+        val address = getAddressFromLocation(sydney)
+        val location = getLocationFromAddress("Харьков")
     }
 
     fun scaleMapByPoints() {
