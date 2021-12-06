@@ -45,9 +45,7 @@
             </intent-filter>
 
         </activity>
-        <activity
-            android:name=".fragment_lessons.MainActivity"
-            android:exported="true" />
+
     </application>
 
 </manifest>
